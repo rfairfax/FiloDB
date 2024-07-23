@@ -5,4 +5,4 @@ sudo sh -c 'echo "deb http://archive.apache.org/dist/cassandra/debian 40x main" 
 sudo apt update
 sudo apt install cassandra
 set +e
-sbt coverage test coverageAggregate
+sbt -Drust.architectures="host;aarch64-unknown-linux-gnu;aarch64-apple-darwin;x86_64-apple-darwin" coverage test coverageAggregate

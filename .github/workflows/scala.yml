@@ -24,6 +24,7 @@ jobs:
       with:
         components: rustfmt, clippy
         target: x86_64-apple-darwin, aarch64-apple-darwin, aarch64-unknown-linux-gnu
+        cache-workspaces: "core/src/rust -> target"
     - name: Run tests
       run: .github/workflows/runtests.sh
     - name: Coverage Reports

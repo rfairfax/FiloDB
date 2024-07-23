@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ develop, rfairfax/build_test ]
   pull_request:
     branches: [ develop, integration, main, feat-index-rust ]
 
@@ -19,6 +19,11 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
+    - name: Install Rust
+      uses: actions-rust-lang/setup-rust-toolchain@v1
+      with:
+        components: rustfmt, clippy
+        target: x86_64-apple-darwin, aarch64-apple-darwin, aarch64-unknown-linux-gnu
     - name: Run tests
       run: .github/workflows/runtests.sh
     - name: Coverage Reports

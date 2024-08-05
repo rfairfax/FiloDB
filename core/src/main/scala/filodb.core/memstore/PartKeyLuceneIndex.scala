@@ -13,7 +13,6 @@ import com.github.benmanes.caffeine.cache.{Caffeine, LoadingCache}
 import com.googlecode.javaewah.{EWAHCompressedBitmap, IntIterator}
 import com.typesafe.scalalogging.StrictLogging
 import kamon.Kamon
-import kamon.metric.MeasurementUnit
 import org.apache.lucene.analysis.standard.StandardAnalyzer
 import org.apache.lucene.document._
 import org.apache.lucene.document.Field.Store
@@ -79,16 +78,6 @@ class PartKeyLuceneIndex(ref: DatasetRef,
 
   import PartKeyLuceneIndex._
   import PartKeyIndexRaw._
-
-  val partIdFromPartKeyLookupLatency = Kamon.histogram("index-ingestion-partId-lookup-latency",
-    MeasurementUnit.time.nanoseconds)
-    .withTag("dataset", ref.dataset)
-    .withTag("shard", shardNum)
-
-  val labelValuesQueryLatency = Kamon.histogram("index-label-values-query-latency",
-    MeasurementUnit.time.nanoseconds)
-    .withTag("dataset", ref.dataset)
-    .withTag("shard", shardNum)
 
   val readerStateCacheHitRate = Kamon.gauge("index-reader-state-cache-hit-rate")
     .withTag("dataset", ref.dataset)

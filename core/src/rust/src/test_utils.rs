@@ -1,8 +1,10 @@
 //! Utilites for testing
 
 use tantivy::{
-    schema::{JsonObjectOptions, Schema, SchemaBuilder, TextFieldIndexing, FAST, INDEXED, STRING},
-    Index, TantivyDocument,
+    schema::{
+        Field, JsonObjectOptions, Schema, SchemaBuilder, TextFieldIndexing, FAST, INDEXED, STRING,
+    },
+    Index, Searcher, TantivyDocument,
 };
 
 use crate::state::field_constants;
@@ -10,9 +12,12 @@ pub const COL1_NAME: &str = "col1";
 pub const COL2_NAME: &str = "col2";
 pub const JSON_COL_NAME: &str = "json_col";
 pub const JSON_ATTRIBUTE1_NAME: &str = "f1";
+pub const JSON_ATTRIBUTE2_NAME: &str = "f2";
 
 pub struct TestIndex {
     pub schema: Schema,
+    pub searcher: Searcher,
+    pub json_field: Field,
 }
 
 pub fn build_test_schema() -> TestIndex {
@@ -79,5 +84,14 @@ pub fn build_test_schema() -> TestIndex {
         writer.commit().unwrap();
     }
 
-    TestIndex { schema }
+    let reader = index.reader().unwrap();
+    let searcher = reader.searcher();
+
+    let json_field = schema.get_field(JSON_COL_NAME).unwrap();
+
+    TestIndex {
+        schema,
+        searcher,
+        json_field,
+    }
 }

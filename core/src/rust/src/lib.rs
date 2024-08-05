@@ -24,6 +24,9 @@ mod index;
 mod ingestion;
 mod jnienv;
 mod parser;
+mod profile;
+mod query;
+mod reader;
 mod state;
 
 #[cfg(test)]
